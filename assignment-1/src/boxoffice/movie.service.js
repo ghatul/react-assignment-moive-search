@@ -9,9 +9,13 @@ export default class MovieService {
     }
 
     static searchMovies(title) {
-        let url = 'https://www.omdbapi.com?i=tt3896198&apikey=2933c48b&type=movie&r=json&s=abcd';
+        let url = `https://www.omdbapi.com?i=tt3896198&apikey=2933c48b&type=movie&r=json&s=${title}`;
         return requestService.fetch(url).then(res => {
-            return res.data;
+            if(res.data && res.data.Response === 'True' && res.data.Search) {
+                return res.data;
+            } else {
+                return {Search:[]};
+            }
         }).catch(err => err);
     }
 

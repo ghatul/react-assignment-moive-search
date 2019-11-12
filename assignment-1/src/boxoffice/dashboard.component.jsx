@@ -16,9 +16,10 @@ class DashboardComponent extends React.Component {
   searchMovie(e) {
     e.preventDefault();
     apiService.searchMovies(this.state.title).then(res => {
+      console.log('--------------');
       this.setState({ movies: res.Search });
     }).catch(err => {
-      console.log(err);
+      this.setState({ movies: [] });
     });
   }
 
@@ -35,21 +36,30 @@ class DashboardComponent extends React.Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.searchMovie}>
-          <lable>user name:
+      <div className="dashboardContainer">
+        <div className="searchBar">
+        <form className="searchBox" onSubmit={this.searchMovie}>
            <input
               type='text'
               value={this.state.title}
               name='title'
               onChange={this.onChange}
+              className="searchInputBox"
             ></input>
-          </lable>
-          <input type='submit' value='submit'></input>
+          <input className="searchButton" type='submit' value='search'></input>
         </form>
-        <ul>
-          {this.state.movies.map(movie => <li key={movie.imdbID} onClick={() => { this.onMovieSelect(movie) }}>{movie.Title}</li>)}
-        </ul>
+        </div>
+        <div className="grid-container">
+          {this.state.movies && !!this.state.movies.length && this.state.movies.map(movie =>
+            <div className="g-movie" key={movie.imdbID} onClick={() => { this.onMovieSelect(movie) }}>
+            <img className="g-poster" src={movie.Poster}></img>
+            <div className="movie-details">{movie.Title} ({movie.Year})s</div>
+            </div>)}
+            {this.state.movies && !!!this.state.movies.length && 
+            <div className="no-data-avail">
+             Pleasae apply search to load data or No data available
+            </div>}
+        </div>
       </div>
     )
   }

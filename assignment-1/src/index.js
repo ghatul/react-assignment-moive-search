@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Routing from './app-routing';
-
+import './App.css';
 
 
 ReactDOM.render(Routing, document.getElementById('root'));
